@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)https://veta.naver.com/fxshow?su=SU10083&sid1=103&sid2=245&oid=025 -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>NAVER</title>
+    <script type="text/javascript" src="./pc.veta.core.min.js"></script>
+    <script type="text/javascript" src="./jquery-1.8.0.min.js"></script>
+</head>
+<body marginwidth="0" marginheight="0">
+<script>
+    document.domain = "naver.com";
+
+    try {
+        $(document).ready(function () {
+            initAd();
+        });
+
+        var uId = window.frameElement.id;
+        var tarEl = null;
+        var timeOut = null;
+
+        function initAd() {
+            if (!parent.window.getComputedStyle) {
+                parent.window.daGetComputedStyle = function (el) {
+                    return el.currentStyle;
+                }
+            } else {
+                parent.window.daGetComputedStyle = parent.window.getComputedStyle;
+            }
+
+            tarEl = $("#" + uId, parent.document);
+            $(parent.window).bind("scroll resize", checkViewPortHandler);
+            checkViewPortHandler();
+        }
+
+        // 유효노출 시 parent의 display is none, visibility is hidden과 광고 dom의 null 여부를 판단한다.
+        function validActiveView(sDivId) {
+            var judgeTheSituation;
+            try {
+                judgeTheSituation = [9, 9]; // index 0: parents display check, index 1: parents visibility hidden check, index 2: da dom null
+                var target = parent.document.getElementById(sDivId);
+
+                if (target === null) {
+                    judgeTheSituation[1] = 0;
+                } else {
+                    if (parent.window.daGetComputedStyle(target, null).display.toLowerCase() === 'none' || parent.window.daGetComputedStyle(target, null).visibility.toLowerCase() === 'hidden') {
+                        judgeTheSituation[1] = 0;
+                    } else {
+                        judgeTheSituation[1] = 1;
+                    }
+
+                    // 광고와 관련된 Elements 순회
+                    checkParents(target.parentNode, function action(el) {
+                        if (el.nodeType == 1) {
+                            judgeTheSituation[0] = (judgeTheSituation[0] === 1 || judgeTheSituation[0] === 9) ? ((parent.window.daGetComputedStyle(el, null).display.toLowerCase() === 'none') ? 0 : 1) : judgeTheSituation[0];
+
+                            judgeTheSituation[0] = (judgeTheSituation[0] === 1 || judgeTheSituation[0] === 9) ? ((parent.window.daGetComputedStyle(el, null).visibility.toLowerCase() === 'hidden') ? 0 : 1) : judgeTheSituation[0];
+                        }
+                    });
+                }
+            } catch (e) {
+                judgeTheSituation = [0, 0];
+            }
+
+            return judgeTheSituation;
+        }
+
+        // target parents 순회
+        function checkParents(target, action) {
+            while (target) {
+                action(target);
+                target = target.parentNode;
+            }
+        }
+
+        function checkViewPortHandler() {
+            clearTimeout(timeOut);
+
+            timeOut = setTimeout(function () {
+                checkViewPort(tarEl, function () {
+                    try {
+                        var eid = '';
+                        if (validActiveView(uId).join('') === '11') {
+                            eid = 'V900';
+                            $(parent.window).unbind("scroll resize", checkViewPortHandler);
+                        } else {
+                            eid = 'V000';
+                        }
+
+                        var url = "https://veta.naver.com/fxview?eu=EU10000124&calp=-&oj=iLnPO8XT3bs81xnpXnJRwUZ2%2BG88ilDDViJZP8yAlh57ENsMKbqKZWx%2FhcG054wnl6zXV0tuZxdH35ulBH%2BOXy1%2F68xWsQhdQbaAJdiJfEA17ba2BRrTfg&ac=7457610&src=3061360&evtcd=V900&x_ti=834&tb=&oid=025&sid1=103&sid2=245&rk=1acdf336c3560d5c20d8d38fb10989e2&eltts=HaZgD5NlsXqF0ainfrt8uQ%3D%3D&brs=Y&&eid=" + eid;
+                        var oNimp = new Nimp([url]);
+                        oNimp.log(1);
+                    } catch (e) {
+                    }
+                });
+            }, 1000);
+        }
+
+        function checkViewPort(elem, callbackIn) {
+            var flagIn = beIntoViewPort(elem, 0.5);
+
+            if (flagIn) {
+                callbackIn();
+            }
+        }
+
+        function beIntoViewPort(elem, ratio) {
+            if (!elem) return false;
+            if (validActiveView(uId).join('') !== '11') return false;
+
+            ratio = (ratio) ? ratio : 1.0;
+            var eW = elem.width();
+            var eH = elem.height();
+
+            var viewportTop = $(parent.window).scrollTop();
+            var viewportBottom = $(parent.window).scrollTop() + $(parent.window).innerHeight();
+            var viewportLeft = $(parent.window).scrollLeft();
+            var viewportRight = $(parent.window).scrollLeft() + $(parent.window).innerWidth();
+
+            var f1 = (viewportTop <= (elem.offset().top + (eH * (1.0 - ratio))));
+            var f2 = (viewportBottom >= elem.offset().top + (eH * ratio));
+            var f3 = (viewportLeft <= elem.offset().left + (eW * (1.0 - ratio)));
+            var f4 = (viewportRight >= elem.offset().left + (eW * ratio));
+
+            return (f1 && f2) && (f3 && f4);
+        }
+    } catch (e) {
+
+    }
+</script>
+
+</body></html>
