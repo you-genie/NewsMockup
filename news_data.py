@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request
-
+# -*- coding: utf-8 -*- 
 
 class Comment:
     def __init__(self, user, time, body):

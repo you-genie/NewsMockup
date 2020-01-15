@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 from flask import Flask, render_template, request
 from news_data import news_lists, comment_lists
 
