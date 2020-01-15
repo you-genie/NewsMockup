@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Flask Index</title>
+    <title>News Mockup</title>
+    <style>
+    .footer {
+
+        position: absolute;
+
+        left: 0;
+
+        bottom: 0;
+
+        width: 100%;
+
+        padding: 3px 0;
+
+        text-align: center;
+
+        color: white;
+
+        background: #EBECF0;
+
+    }
+    </style>
 </head>
 <body>
 
@@ -20,6 +41,9 @@
         <a target="_blank" href="/news?news=0&comment=2">news 1, composite</a>
     </li>
     <li>
+        <a target="_blank" href="/news?news=0&comment=3">news 1, none</a>
+    </li>
+    <li>
         <a target="_blank" href="/news?news=1&comment=0">news 2, conservative</a>
     </li>
     <li>
@@ -28,9 +52,13 @@
     <li>
         <a target="_blank" href="/news?news=1&comment=2">news 2, composite</a>
     </li>
+    <li>
+        <a target="_blank" href="/news?news=1&comment=3">news 2, none</a>
+    </li>
 </ul>
-
-<p>go for each</p>
+<footer class="footer">
+    <p><small>Copyrights &copy; 2020 by Yujin Chung (Genne)</small></p>
+</footer>
 
 </body>
 </html>
